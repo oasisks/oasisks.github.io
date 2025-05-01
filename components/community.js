@@ -113,7 +113,6 @@ export default defineAsyncComponent(async () => {
         if (!this.newMessage) {
           return;
         }
-  
         await this.$graffiti.patch(
           {
             value: [
@@ -124,7 +123,7 @@ export default defineAsyncComponent(async () => {
           messageObj,
           session
         )
-  
+        console.log(messageObj);
         this.editing = false;
       },
       async deleteMessage(session, messageObj) {

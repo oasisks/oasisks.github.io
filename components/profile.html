@@ -1,8 +1,55 @@
 <section id="profile">
     <h2>Profile</h2>
     <article id="profile-image">
-        <p>TODO: Add in uploading an image logic</p>
-        {{profileImg}}
+        <template v-if="!profileData">
+            <p>Loading Profile</p>
+        </template>
+        <template v-else>
+            <profile-image v-if="!profileData.value.profileImage" :src="'/components/defaultUser.jpg'" :width="'200px'" :height="'200px'" :round="true">
+                
+            </profile-image>
+            <article v-if="!profileData.value.profileImage">
+                <form @submit.prevent="uploadFile($graffitiSession.value)">
+                    <label for="file-input">
+                        Add a profile Image!
+                    </label>
+                    <article id="file-upload">
+                        <input
+                            id="file-input"
+                            type="file"
+                            accept="*"
+                            @change="setFileToUpload"
+                        />
+                        <input type="submit" value="Upload" />
+                    </article>
+
+                </form>
+
+            </article>
+            <article v-else id="profileImage">
+                <profile-image  :src="'/components/download.jpeg'" :width="'200px'" :height="'200px'" :round="true">
+                </profile-image>
+
+                <form @submit.prevent="uploadFile($graffitiSession.value)">
+                    <label for="file-input">
+                        Change your profile image!
+                    </label>
+                    <article id="file-upload">
+                        <input
+                            id="file-input"
+                            type="file"
+                            accept="*"
+                            @change="setFileToUpload"
+                        />
+                        <input type="submit" value="Upload" />
+                    </article>
+
+                </form>
+            </article>
+
+        </template>
+
+
     </article>
 
     <article id="profile-description">

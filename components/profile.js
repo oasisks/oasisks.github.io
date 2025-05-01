@@ -5,6 +5,7 @@ import {
 } from "@graffiti-garden/wrapper-files";
 import { GraffitiObjectToFile } from "@graffiti-garden/wrapper-files/vue";
 
+import profileImage from './profileimage.js';
 
 export default defineAsyncComponent(async () => {
   const template = await fetch("/components/profile.html").then((r) => r.text())
@@ -16,8 +17,10 @@ export default defineAsyncComponent(async () => {
       return {
         channels: ["designftw"],
         fileToUpload: undefined,
-        fileURL: "",
-        graffitiFileSchema
+        fileUrl: "",
+        graffitiFileSchema,
+        loadingProfile: false,
+        profileData: null,
       }
     },
     methods: {
@@ -37,6 +40,16 @@ export default defineAsyncComponent(async () => {
                   session,
               );
               this.fileUrl = url;
+              let result = await this.$graffiti.patch(
+                {
+                  value: [
+                    { "op": "replace", "path": "/profileImage", "value": this.fileUrl },
+                  ]
+                },
+                this.profileData,
+                session,
+              )
+              this.profileData.value.profileImage = url;
           } catch (e) {
               return alert(e);
           } finally {
@@ -45,13 +58,42 @@ export default defineAsyncComponent(async () => {
           alert("Uploaded!");
       },
     },
-    components: { GraffitiObjectToFile },
-    computed: {
-      profileImg() {
-        console.log("Generating an image");
-        console.log(this.$props.userName);
+    async mounted() {
+      let currentActor = this.$graffitiSession.value.actor;
+
+      this.loadingProfile = true;
+      const collected = [];
+      const schema = {
+        properties: {
+          value: {
+              required: ['name', 'published', 'profileImage', 'description'],
+              properties: {
+                  name: { type: 'string' },
+                  published: { type: 'number' },
+                  profileImage: { type: 'string' },
+                  description: { type: 'string' },
+              }
+          }
+        }
+      };
+
+      const stream = this.$graffiti.discover(
+        ['designftw'],
+        schema, 
+        this.$graffitiSession.value
+      );
+      for await (const obj of stream) {
+        collected.push(obj);
       }
-    }
+      for (let i = 0; i < collected.length; i++) {
+        let actor = collected[i].object.actor;
+        if (actor === currentActor) {
+          this.profileData = collected[i].object;
+          return;
+        }
+      }
+    },
+    components: { GraffitiObjectToFile, profileImage },
   };
 });
   

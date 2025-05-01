@@ -51,7 +51,7 @@ createApp({
                   description: { type: 'string' },
               }
           }
-      }
+        }
       };
       // this first checks for all the profiles
       const stream = this.$graffiti.discover(
@@ -63,7 +63,7 @@ createApp({
       for await (const obj of stream) {
         collected.push(obj);
       }
-      console.log(collected);
+
       for (let i = 0; i < collected.length; i++) {
         let actor = collected[i].object.actor;
         // if we found an actor within the list of actors that is the same with the current 

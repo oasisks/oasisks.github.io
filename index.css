@@ -106,7 +106,25 @@ body {
     display: flex;
     flex-direction: column;
     width: 100%;
-    background-color: aqua;
     justify-content: center;
+    align-items: center;
+}
+
+#profile-image {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+#file-upload {
+    display: flex;
+    flex-direction: column;
+}
+
+#profileImage {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     align-items: center;
 }
