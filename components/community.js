@@ -21,6 +21,7 @@ export default defineAsyncComponent(async () => {
         editGroupName: false,
         groupObj: null,
         newGroupName: "",
+        createGroupName: "",
       };
     },
     methods: {
@@ -47,30 +48,30 @@ export default defineAsyncComponent(async () => {
         await this.$nextTick();
         this.$refs.messageInput.focus();
       },
-      // async createGroup(session) {
-      //   if (!this.groupName) return;
-      //   this.creatingGroup = true;
+      async createGroup(session) {
+        if (!this.createGroupName) return;
+        this.creatingGroup = true;
   
-      //   await this.$graffiti.put(
-      //     {
-      //       value: {
-      //         activity: 'Create',
-      //         object: {
-      //           type: 'Group Chat',
-      //           name: this.groupName,
-      //           channel: crypto.randomUUID(),
-      //         }
-      //       },
-      //       channels: this.channels,
-      //     },
-      //     session,
-      //   );
-      //   this.groupName = "";
-      //   this.creatingGroup = false;  
+        await this.$graffiti.put(
+          {
+            value: {
+              activity: 'Create',
+              object: {
+                type: 'Group Chat',
+                name: this.createGroupName,
+                channel: crypto.randomUUID(),
+              }
+            },
+            channels: this.channels,
+          },
+          session,
+        );
+        this.createGroupName = "";
+        this.creatingGroup = false;  
   
-      //   await this.$nextTick();
-      //   this.$refs.groupInput.focus();
-      // },
+        await this.$nextTick();
+        this.$refs.groupInput.focus();
+      },
       selectGroup(name, channel, groupObj) {
         this.currentChannel = channel;
         this.currentGroupName = name;

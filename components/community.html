@@ -1,6 +1,21 @@
 <section id="community">
     <article id="group-list">
         <h1>Group Chat List</h1>
+        <form @submit.prevent="createGroup($graffitiSession.value)">
+            <fieldset :disabled="creatingGroup">
+                <input
+                    type="text"
+                    v-model="createGroupName"
+                    placeholder="Group Name"
+                    ref="groupInput"
+                    v-focus
+                />
+                <input
+                    type="submit"
+                    :value="sending? 'Creating...' : 'Create'"
+                />
+            </fieldset>
+        </form>
         <graffiti-discover
             v-slot="{ objects: groupChatObjects }"
             :channels="['designftw']"
