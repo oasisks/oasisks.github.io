@@ -101,3 +101,12 @@ body {
 .group-name:active {
     background-color: #90bed3;
 }
+
+#profile {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: aqua;
+    justify-content: center;
+    align-items: center;
+}

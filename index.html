@@ -11,7 +11,9 @@
                 "vue-router": "https://cdn.jsdelivr.net/npm/vue-router@4.5.0/dist/vue-router.esm-browser.prod.js",
                 "@graffiti-garden/implementation-local": "https://cdn.jsdelivr.net/npm/@graffiti-garden/implementation-local@0.6.4/dist/browser/index.js",
                 "@graffiti-garden/implementation-remote": "https://cdn.jsdelivr.net/npm/@graffiti-garden/implementation-remote@0.6.2/dist/browser/index.js",
-                "@graffiti-garden/wrapper-vue": "https://cdn.jsdelivr.net/npm/@graffiti-garden/wrapper-vue@0.7.2/dist/browser/plugin.mjs"
+                "@graffiti-garden/wrapper-vue": "https://cdn.jsdelivr.net/npm/@graffiti-garden/wrapper-vue@0.7.2/dist/browser/plugin.mjs",
+                "@graffiti-garden/wrapper-files": "https://cdn.jsdelivr.net/npm/@graffiti-garden/wrapper-files@0.0.2/dist/browser/index.js",
+                "@graffiti-garden/wrapper-files/vue": "https://cdn.jsdelivr.net/npm/@graffiti-garden/wrapper-files@0.0.2/dist/vue/index.mjs"
             }
         }
     </script>
@@ -23,11 +25,11 @@
             <article id="start">
                 <h1>Welcome to my Food Finding App</h1>
                 <h2>Please log in: </h2>
-                <button @click="$graffiti.login()">Log In</button>
+                <button @click="$graffiti.login(); initProfile($graffitiSession.value);">Log In</button>
             </article>
         </template>
         <template v-else>
-            <navbar></navbar>
+            <navbar :user-name="$graffitiSession.value.actor"></navbar>
             <router-view></router-view>
         </template>
     </div>

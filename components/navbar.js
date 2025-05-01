@@ -1,5 +1,6 @@
 export default {
     name: 'Navbar',
+    props: ["userName"],
     template: `
       <nav id="navbar">
         <article id="search-bar"> 
@@ -9,7 +10,7 @@ export default {
         <ul>
             <li><router-link to="/community">Community</router-link></li>
             <li><router-link to="/favorites">Favorites</router-link></li>
-            <li><router-link to="/profile">Profile</router-link></li>
+            <li><router-link :to="\`/profile/\${userName}\`">Profile</router-link></li>
             <li><button @click="logout">Log Out</button></li>
         </ul>
       </nav>
