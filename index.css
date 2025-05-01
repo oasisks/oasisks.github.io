@@ -128,3 +128,28 @@ body {
     width: 100%;
     align-items: center;
 }
+
+#profile-description {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+#profile-description-headers {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+
+#profile-description-values {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+
+#profile-description-values p{
+    padding: 0;
+    margin: 0;
+}

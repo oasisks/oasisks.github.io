@@ -1,5 +1,5 @@
-<section id="profile">
-    <h2>Profile</h2>
+<section id="profile" v-if="profileData">
+    <h2>Profile: {{ profileData.actor }}</h2>
     <article id="profile-image">
         <template v-if="!profileData">
             <p>Loading Profile</p>
@@ -27,8 +27,26 @@
 
             </article>
             <article v-else id="profileImage">
-                <profile-image  :src="'/components/download.jpeg'" :width="'200px'" :height="'200px'" :round="true">
-                </profile-image>
+                <graffiti-get
+                        :url="profileData.value.profileImage"
+                        :schema="graffitiFileSchema"
+                        v-slot="{ object }"
+                    >
+                        <graffiti-object-to-file
+                            :object="object"
+                            v-slot="{ file, fileDataUrl }"
+                        >
+                            <p v-if="file === undefined">Loading...</p>
+                            <p v-else-if="file === null">File not found.</p>
+                            <template v-else>
+                                <p v-if="file.type.startsWith('image/')">
+                                    <profile-image  :src="fileDataUrl" :width="'200px'" :height="'200px'" :round="true">
+                                    </profile-image>
+                                </p>
+                            </template>
+                        </graffiti-object-to-file>
+                    </graffiti-get>
+
 
                 <form @submit.prevent="uploadFile($graffitiSession.value)">
                     <label for="file-input">
@@ -53,6 +71,13 @@
     </article>
 
     <article id="profile-description">
-        <p>TODO: Add in description for the description</p>
+        <article id="profile-description-headers">
+            <h3>Name: </h3>
+            <h3>Description: </h3>
+        </article>
     </article>
+</section>
+
+<section v-else>
+    <p>Loading in profile</p>
 </section>
