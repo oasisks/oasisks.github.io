@@ -1,3 +1,91 @@
-<section>
-    <h2>Community</h2>
+<section id="community">
+    <article id="group-list">
+        <h1>Group Chat List</h1>
+        <graffiti-discover
+            v-slot="{ objects: groupChatObjects }"
+            :channels="['designftw']"
+            :schema="{
+                properties: {
+                    value: {
+                        required: ['activity', 'object'],
+                        properties: {
+                            activity: {type: 'string'},
+                            object: {type: 'object'},
+                        }
+                    }
+                }
+            }"
+        >   
+            <ul>
+                <li v-for="object of groupChatObjects" :key="object.value.object.channel" class="group-name">
+                    <router-link :to="`/community/${object.value.object.channel}/${object.value.object.name}`">
+                        {{ object.value.object.name }}
+                    </router-link>
+                </li>
+            </ul>
+        </graffiti-discover>
+    </article>
+    <article id="chat-section" v-if="chatID">
+        <article>
+            <h2>Group Chat: {{ groupName }}</h2>
+
+            <graffiti-discover
+                v-slot="{ objects: messageObjects, isInitialPolling }"
+                :channels="[chatID]"
+                :schema="{
+                    properties: {
+                        value: {
+                            required: ['content', 'published'],
+                            properties: {
+                                content: { type: 'string' },
+                                published: { type: 'number' }
+                            }
+                        }
+                    }
+                }"
+            >
+                <ul>
+                    <li v-if="isInitialPolling">Loading...</li>
+                    <li
+                        v-for="(object, i) of messageObjects.sort((a, b) => b.value.published - a.value.published)"
+                        :key="object.url"
+                    >   
+                        <template v-if="!editing || i !== editingIndex">
+                            <strong>
+                                {{ object.actor }}<span
+                                    v-if="object.actor===$graffitiSession.value.actor"
+                                >
+                                    (you)</span
+                                ></strong
+                            >: {{ object.value.content }}
+                            <button @click="startEditing($graffitiSession.value, object, i)" :disabled="$graffitiSession.value.actor != object.actor">Edit</button>
+                        </template>
+
+                        <template v-else>
+                            <input ref="newMessageInput" type="text" v-model="newMessage" v-focus>
+                            <button @click="editMessage($graffitiSession.value, object)">Submit</button>
+                            <button @click="cancelEditing()">Cancel</button>
+                        </template>
+                        <button @click="deleteMessage($graffitiSession.value, object)" :disabled="$graffitiSession.value.actor != object.actor">Delete</button>
+                    </li>
+                </ul>
+            </graffiti-discover>
+
+            <form @submit.prevent="sendMessage($graffitiSession.value)">
+                <fieldset :disabled="sending">
+                    <input
+                        type="text"
+                        v-model="myMessage"
+                        placeholder="Message"
+                        ref="messageInput"
+                        v-focus
+                    />
+                    <input
+                        type="submit"
+                        :value="sending? 'Sending...' : 'Send'"
+                    />
+                </fieldset>
+            </form>
+        </article>
+    </article>
 </section>
