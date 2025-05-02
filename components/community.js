@@ -1,5 +1,12 @@
 import { defineAsyncComponent } from 'vue';
 
+import profileImage from './profileimage.js';
+import {
+  fileToGraffitiObject,
+  graffitiFileSchema,
+} from "@graffiti-garden/wrapper-files";
+import { GraffitiObjectToFile } from "@graffiti-garden/wrapper-files/vue";
+
 export default defineAsyncComponent(async () => {
   const template = await fetch("./components/community.html").then((r) => r.text())
   return {
@@ -16,13 +23,40 @@ export default defineAsyncComponent(async () => {
         channels: ["designftw"],
         editing: false,
         editingIndex: -1,
+        graffitiFileSchema,
         newMessage: "",
         editingFailed: false,
         editGroupName: false,
         groupObj: null,
         newGroupName: "",
         createGroupName: "",
+        profiles: [],
       };
+    },
+    async mounted() {
+      this.loadingProfile = true;
+      const schema = {
+        properties: {
+          value: {
+              required: ['name', 'published', 'profileImage', 'description'],
+              properties: {
+                  name: { type: 'string' },
+                  published: { type: 'number' },
+                  profileImage: { type: 'string' },
+                  description: { type: 'string' },
+              }
+          }
+        }
+      };
+
+      const stream = this.$graffiti.discover(
+        ['designftw'],
+        schema, 
+        this.$graffitiSession.value
+      );
+      for await (const obj of stream) {
+        this.profiles.push(obj.object);
+      }
     },
     methods: {
       async sendMessage(session) {
@@ -123,7 +157,6 @@ export default defineAsyncComponent(async () => {
           messageObj,
           session
         )
-        console.log(messageObj);
         this.editing = false;
       },
       async deleteMessage(session, messageObj) {
@@ -144,6 +177,14 @@ export default defineAsyncComponent(async () => {
         await this.$nextTick();
         this.$refs.groupChatNameInput.focus();
       },
+      getProfileImage(actor) {
+        for (let i = 0; i < this.profiles.length; i++) {
+          const profile = this.profiles[i];
+          if (profile.actor === actor) {
+            return profile.value.profileImage;
+          }
+        }
+      },
       cancelRenaming() {
         this.editGroupName = false;
       },
@@ -162,10 +203,9 @@ export default defineAsyncComponent(async () => {
         )
         this.editGroupName = false;
         this.currentGroupName = this.newGroupName;
-      }
+      },
     },
-    computed: {
-    }
+    components: { profileImage, GraffitiObjectToFile },
   };
 });
   

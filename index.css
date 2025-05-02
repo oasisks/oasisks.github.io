@@ -85,6 +85,15 @@ body {
     /* background-color: aqua; */
 }
 
+#chat-section ul {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+#chat-section li {
+    list-style-type: none;
+}
+
 
 .group-name {
     padding: 0.5em 0 0.5em 0.5em;
@@ -148,4 +157,23 @@ body {
     flex-direction: row;
     width: 25%;
     align-items: flex-end;
+}
+
+.message-output {
+    display: flex;
+    flex-direction: row;
+}
+
+.edit-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10%;
+    justify-content: space-around;
+}
+
+.profile-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -43,7 +43,12 @@
     <article id="chat-section" v-if="chatID">
         <article>
             <h2>Group Chat: {{ groupName }}</h2>
-
+            <!-- <article v-if="profiles">
+                {{ profiles }}
+            </article> -->
+            <!-- <profile-image :src="'/components/defaultUser.jpg'" :width="'1.5em'" :height="'1.5em'" :round="true">
+                
+            </profile-image> -->
             <graffiti-discover
                 v-slot="{ objects: messageObjects, isInitialPolling }"
                 :channels="[chatID]"
@@ -59,29 +64,73 @@
                     }
                 }"
             >
-                <ul>
+                <ul reversed>
                     <li v-if="isInitialPolling">Loading...</li>
                     <li
-                        v-for="(object, i) of messageObjects.sort((a, b) => b.value.published - a.value.published)"
-                        :key="object.url"
+                        v-for="(messageObj, i) of messageObjects.sort((a, b) => b.value.published - a.value.published)"
+                        :key="messageObj.url"
                     >   
                         <template v-if="!editing || i !== editingIndex">
-                            <strong>
-                                {{ object.actor }}<span
-                                    v-if="object.actor===$graffitiSession.value.actor"
+                            <article v-if="getProfileImage(messageObj.actor)" class="message-output">
+                                <graffiti-get
+                                    :url="getProfileImage(messageObj.actor)"
+                                    :schema="graffitiFileSchema"
+                                    v-slot="{ object }"
                                 >
-                                    (you)</span
-                                ></strong
-                            >: {{ object.value.content }}
-                            <button @click="startEditing($graffitiSession.value, object, i)" :disabled="$graffitiSession.value.actor != object.actor">Edit</button>
+                                    <graffiti-object-to-file
+                                        :object="object"
+                                        v-slot="{ file, fileDataUrl }"
+                                    >
+                                        <p v-if="file === undefined">Loading...</p>
+                                        <p v-else-if="file === null">File not found.</p>
+                                        <template v-else>
+                                            <section v-if="file.type.startsWith('image/')" class="message-output">
+                                                <article class="profile-image">
+                                                    <profile-image  :src="fileDataUrl" :width="'1.5em'" :height="'1.5em'" :round="true">
+                                                    </profile-image>
+                                                </article>
+                                            </section>
+                                        </template>
+                                    </graffiti-object-to-file>
+                                </graffiti-get>
+                                <p><strong>
+                                    {{ messageObj.actor }}<span
+                                        v-if="messageObj.actor===$graffitiSession.value.actor"
+                                    >
+                                        (you)</span
+                                    ></strong
+                                >: {{ messageObj.value.content }}</p>
+                                <article class="edit-message">
+                                    <button @click="startEditing($graffitiSession.value, messageObj, i)" :disabled="$graffitiSession.value.actor != messageObj.actor">Edit</button>
+                                    <button @click="deleteMessage($graffitiSession.value, messageObj)" :disabled="$graffitiSession.value.actor != messageObj.actor">Delete</button>
+                                </article>
+                            </article>
+                            <article v-else class="message-output">
+                                <article class="profile-image">
+                                    <profile-image :src="'/components/defaultUser.jpg'" :width="'1.5em'" :height="'1.5em'" :round="true">
+                
+                                    </profile-image>
+                                </article>
+                                <p><strong>
+                                    {{ messageObj.actor }}<span
+                                        v-if="messageObj.actor===$graffitiSession.value.actor"
+                                    >
+                                        (you)</span
+                                    ></strong
+                                >: {{ messageObj.value.content }}</p>
+                                <article class="edit-message">
+                                    <button @click="startEditing($graffitiSession.value, messageObj, i)" :disabled="$graffitiSession.value.actor != messageObj.actor">Edit</button>
+                                    <button @click="deleteMessage($graffitiSession.value, messageObj)" :disabled="$graffitiSession.value.actor != messageObj.actor">Delete</button>
+                                </article>
+                            </article>
+                            <!-- <p>URL: {{ getProfileImage(object.actor) }}</p> -->
                         </template>
 
                         <template v-else>
                             <input ref="newMessageInput" type="text" v-model="newMessage" v-focus>
-                            <button @click="editMessage($graffitiSession.value, object)">Submit</button>
+                            <button @click="editMessage($graffitiSession.value, messageObj)">Submit</button>
                             <button @click="cancelEditing()">Cancel</button>
                         </template>
-                        <button @click="deleteMessage($graffitiSession.value, object)" :disabled="$graffitiSession.value.actor != object.actor">Delete</button>
                     </li>
                 </ul>
             </graffiti-discover>
