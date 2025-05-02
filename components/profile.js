@@ -21,6 +21,9 @@ export default defineAsyncComponent(async () => {
         graffitiFileSchema,
         loadingProfile: false,
         profileData: null,
+        editing: false,
+        name: "",
+        description: "",
       }
     },
     methods: {
@@ -57,6 +60,23 @@ export default defineAsyncComponent(async () => {
           }
           alert("Uploaded!");
       },
+      async editProfile(session) {
+        console.log(this.name);
+        console.log(this.description);
+        await this.$graffiti.patch(
+          {
+            value: [
+              {"op": "replace", "path": "/name", "value": this.name },
+              {"op": "replace", "path": "/description", "value": this.description },
+            ]
+          },
+          this.profileData,
+          session
+        )
+        this.profileData.value.name = this.name;
+        this.profileData.value.description = this.description;
+        this.editing = false;
+      },  
     },
     async mounted() {
       let currentActor = this.$graffitiSession.value.actor;

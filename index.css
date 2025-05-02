@@ -131,7 +131,7 @@ body {
 
 #profile-description {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     width: 100%;
     align-items: center;
     justify-content: center;
@@ -143,13 +143,9 @@ body {
     width: 25%;
 }
 
-#profile-description-values {
+#profile-edit {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 25%;
-}
-
-#profile-description-values p{
-    padding: 0;
-    margin: 0;
+    align-items: flex-end;
 }

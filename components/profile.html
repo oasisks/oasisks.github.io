@@ -71,9 +71,23 @@
     </article>
 
     <article id="profile-description">
-        <article id="profile-description-headers">
-            <h3>Name: </h3>
-            <h3>Description: </h3>
+        <article v-if="!editing" id="profile-edit">
+            <button @click="() => {editing = true; name = profileData.value.name; description = profileData.value.description;}">Edit</button>
+        </article>
+
+        <article v-else id="profile-edit">
+            <button @click="editProfile($graffitiSession.value); console.log('Clicked');">Submit</button>
+            <button @click="() => {editing = false;}">Cancel</button>
+        </article>
+
+        <article v-if="!editing" id="profile-description-headers">
+            <h3>Name: {{ profileData.value.name || "No name set." }}</h3>
+            <h3>Description: {{ profileData.value.description || "No description set." }} </h3>
+        </article>
+
+        <article v-else id="profile-description-headers">
+            <h3>Name: <input type="text" v-model="name"></h3>
+            <h3>Description: <input type="text" v-model="description"></h3>
         </article>
     </article>
 </section>
