@@ -4,15 +4,27 @@ export default {
     template: `
       <nav id="navbar">
         <article id="search-bar"> 
-          <router-link to="/">Home</router-link>
-          <p>Search bar </p>
+          <input type="text">
+          <button>Search</button>
         </article>
         <ul>
-            <li><router-link to="/community">Community</router-link></li>
-            <li><router-link to="/favorites">Favorites</router-link></li>
-            <li><router-link :to="\`/profile/\${userName}\`">Profile</router-link></li>
-            <li><button @click="logout">Log Out</button></li>
+            <li class="nav-item" :class="{ active: $route.path === '/' }">
+              <router-link to="/">Home</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/community">Community</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/favorites">Favorites</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link :to="\`/profile/\${userName}\`">Profile</router-link>
+            </li>
+            <li class="nav-item">
+              <button @click="logout">Log Out</button>
+            </li>
         </ul>
+
       </nav>
     `,
     methods: {
