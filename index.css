@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 body {
-    background-color: rgb(248, 248, 248);
+    background-color: rgb(253, 253, 253);
     font-family: "Roboto Mono";
 }
 #app {
@@ -26,6 +26,10 @@ body {
 #search-bar {
     display: flex;
     flex-direction: row;
+}
+
+#group-name {
+    border-bottom: 1px solid black;
 }
 
 #search-bar input {
@@ -71,15 +75,42 @@ body {
 }
 
 .nav-item a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     color: black;
     text-decoration: none;
+    height: 100%;
 }
 
 .nav-item a.router-link-active, .nav-item.active a{
     border-bottom: 2px solid #3498DB;
     color: #3498DB;
     font-weight: 700;
+}
+
+.nav-item button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.75em 1.2em;
+    border-radius: 0.5em;
+    border: 1px solid #ccc;
+    background-color: #b23b3b;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: background-color 0.2s ease;
+}
+
+.nav-item button:hover {
+    background-color: #913131;
+}
+
+.nav-item button:active {
+    background-color: #dc1d1d;
 }
 
 #navbar #search-bar {
@@ -100,7 +131,6 @@ body {
     display: flex;
     flex-direction: column;
     width: 25%;
-    /* background-color: brown; */
 }
 
 #group-list h1 {
@@ -110,10 +140,19 @@ body {
     width: 100%;
     align-items: center;
     justify-content: center;
+    font-weight: 700;
+    padding-bottom: 0.5em;
 }
 
 #group-list ul {
     padding: 0;
+    height: 77vh;
+    max-height: 90vh;
+    overflow-y: auto;
+    overflow-x: hidden; 
+    scroll-behavior: smooth;  
+    padding-right: 1rem; 
+    box-sizing: content-box; 
 }
 
 #group-list li {
@@ -138,12 +177,19 @@ body {
     width: 75%;
     padding-left: 1em;
     border-left: 1px solid #ccc;
+    justify-content: space-between;
     /* background-color: aqua; */
 }
 
 #chat-section ul {
     display: flex;
     flex-direction: column-reverse;
+    max-height: 69vh;
+    overflow-y: auto;
+    overflow-x: hidden; 
+    scroll-behavior: smooth;  
+    padding-right: 1rem; 
+    box-sizing: content-box; 
 }
 
 #chat-section li {
@@ -153,9 +199,7 @@ body {
 
 .group-name {
     padding: 0.5em 0 0.5em 0.5em;
-    font-size: 20px;
-    background-color: #7CA5B8;
-    border: 1px solid #ccc;
+    font-size: 1em;
     cursor: pointer;
 }
 
@@ -215,7 +259,7 @@ body {
     align-items: flex-end;
 }
 
-.message-output {
+.others {
     display: flex;
     flex-direction: row;
 }
@@ -232,4 +276,34 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+
+#chat-header {
+    border-bottom: 1px solid #111;
+}
+
+#input-form {
+    border-radius: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    display: flex;
+    flex-direction: row;
+}
+
+#message-box {
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    border-radius: 0.75em;
+    width: 100%;
+    border: 1px solid #ccc;
+
+}
+
+#message-send {
+    border-radius: 0 0.5em 0.5em 0;
+    border: 1px solid #ccc;
+    font-weight: 600;
 }

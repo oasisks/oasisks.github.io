@@ -11,7 +11,7 @@ export default {
             <li class="nav-item" :class="{ active: $route.path === '/' }">
               <router-link to="/">Home</router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" :class="{ active: $route.path.startsWith('/community') }">
               <router-link to="/community">Community</router-link>
             </li>
             <li class="nav-item">
@@ -24,7 +24,6 @@ export default {
               <button @click="logout">Log Out</button>
             </li>
         </ul>
-
       </nav>
     `,
     methods: {

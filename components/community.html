@@ -1,7 +1,7 @@
 <section id="community">
     <article id="group-list">
-        <h1>Group Chat List</h1>
-        <form @submit.prevent="createGroup($graffitiSession.value)">
+        <h1>Groups</h1>
+        <!-- <form @submit.prevent="createGroup($graffitiSession.value)">
             <fieldset :disabled="creatingGroup">
                 <input
                     type="text"
@@ -15,7 +15,7 @@
                     :value="sending? 'Creating...' : 'Create'"
                 />
             </fieldset>
-        </form>
+        </form> -->
         <graffiti-discover
             v-slot="{ objects: groupChatObjects }"
             :channels="['designftw']"
@@ -41,14 +41,8 @@
         </graffiti-discover>
     </article>
     <article id="chat-section" v-if="chatID">
-        <article>
-            <h2>Group Chat: {{ groupName }}</h2>
-            <!-- <article v-if="profiles">
-                {{ profiles }}
-            </article> -->
-            <!-- <profile-image :src="'/components/defaultUser.jpg'" :width="'1.5em'" :height="'1.5em'" :round="true">
-                
-            </profile-image> -->
+        <h2 id="chat-header">{{ groupName }}</h2>
+        <article    >
             <graffiti-discover
                 v-slot="{ objects: messageObjects, isInitialPolling }"
                 :channels="[chatID]"
@@ -71,7 +65,7 @@
                         :key="messageObj.url"
                     >   
                         <template v-if="!editing || i !== editingIndex">
-                            <article v-if="getProfileImage(messageObj.actor)" class="message-output">
+                            <article v-if="getProfileImage(messageObj.actor)" class="others">
                                 <graffiti-get
                                     :url="getProfileImage(messageObj.actor)"
                                     :schema="graffitiFileSchema"
@@ -84,7 +78,7 @@
                                         <p v-if="file === undefined">Loading...</p>
                                         <p v-else-if="file === null">File not found.</p>
                                         <template v-else>
-                                            <section v-if="file.type.startsWith('image/')" class="message-output">
+                                            <section v-if="file.type.startsWith('image/')" class="others">
                                                 <article class="profile-image">
                                                     <profile-image  :src="fileDataUrl" :width="'1.5em'" :height="'1.5em'" :round="true">
                                                     </profile-image>
@@ -105,7 +99,7 @@
                                     <button @click="deleteMessage($graffitiSession.value, messageObj)" :disabled="$graffitiSession.value.actor != messageObj.actor">Delete</button>
                                 </article>
                             </article>
-                            <article v-else class="message-output">
+                            <article v-else class="others">
                                 <article class="profile-image">
                                     <profile-image :src="'/components/defaultUser.jpg'" :width="'1.5em'" :height="'1.5em'" :round="true">
                 
@@ -135,19 +129,21 @@
                 </ul>
             </graffiti-discover>
 
-            <form @submit.prevent="sendMessage($graffitiSession.value)">
-                <fieldset :disabled="sending">
+            <form @submit.prevent="sendMessage($graffitiSession.value)" >
+                <fieldset :disabled="sending" id="input-form">
                     <input
                         type="text"
                         v-model="myMessage"
                         placeholder="Message"
                         ref="messageInput"
                         v-focus
+                        id="message-box"
                     />
-                    <input
+                    <!-- <input
                         type="submit"
                         :value="sending? 'Sending...' : 'Send'"
-                    />
+                        id="message-send"
+                    /> -->
                 </fieldset>
             </form>
         </article>
