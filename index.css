@@ -97,7 +97,7 @@ body {
     padding: 0.75em 1.2em;
     border-radius: 0.5em;
     border: 1px solid #ccc;
-    background-color: #b23b3b;
+    background-color: #3498DB;
     color: white;
     font-weight: 600;
     cursor: pointer;
@@ -106,11 +106,11 @@ body {
 }
 
 .nav-item button:hover {
-    background-color: #913131;
+    background-color: #2c7bb0;
 }
 
 .nav-item button:active {
-    background-color: #dc1d1d;
+    background-color: #3289c4;
 }
 
 #navbar #search-bar {
@@ -131,6 +131,7 @@ body {
     display: flex;
     flex-direction: column;
     width: 25%;
+    border-right: 1px solid #ccc;
 }
 
 #group-list h1 {
@@ -146,13 +147,14 @@ body {
 
 #group-list ul {
     padding: 0;
-    height: 77vh;
+    height: 76.25vh;
     max-height: 90vh;
     overflow-y: auto;
     overflow-x: hidden; 
     scroll-behavior: smooth;  
     padding-right: 1rem; 
     box-sizing: content-box; 
+    padding: 0;
 }
 
 #group-list li {
@@ -168,6 +170,8 @@ body {
     width: 100%;
     height: 100%;
     padding: 1em 0 1em;
+    text-decoration: none;
+    color: black;
 }
 
 
@@ -176,7 +180,6 @@ body {
     flex-direction: column;
     width: 75%;
     padding-left: 1em;
-    border-left: 1px solid #ccc;
     justify-content: space-between;
     /* background-color: aqua; */
 }
@@ -184,7 +187,7 @@ body {
 #chat-section ul {
     display: flex;
     flex-direction: column-reverse;
-    max-height: 69vh;
+    max-height: 67vh;
     overflow-y: auto;
     overflow-x: hidden; 
     scroll-behavior: smooth;  
@@ -201,14 +204,26 @@ body {
     padding: 0.5em 0 0.5em 0.5em;
     font-size: 1em;
     cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.group-name a {
+    font-weight: 400;
+}
+
+.group-name.active a {
+    font-weight: 600;
 }
 
 .group-name:hover {
-    background-color: #5b7987;
+    background-color: #d9d9d9;
+    transform: translateY(-0.25em);
+    box-shadow: 0 0.25em 0.75em rgba(0, 0, 0, 0.1);
 }
 
-.group-name:active {
-    background-color: #90bed3;
+.group-name.active {
+    background-color: #bebebe;
+
 }
 
 #profile {
@@ -270,6 +285,86 @@ body {
     justify-content: center;
     width: 10%;
     justify-content: space-around;
+}
+
+@keyframes danger-pulse {
+    0%, 100% {
+      box-shadow: 0 0 0 rgba(255, 0, 0, 0);
+    }
+    50% {
+      box-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+    }
+  }
+  
+.delete-btn:not(:disabled):hover {
+    animation: danger-pulse 0.5s infinite ease-in-out;
+    background-color: #b3241f;
+
+}
+
+.delete-btn {
+    border-radius: 0.5em;
+    border: 1px solid #ccc;
+    padding: 0.5em;
+    background-color: #d93025;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.delete-btn:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    box-shadow: none;
+    animation: none;
+}
+
+.delete-btn:disabled:hover, .delete-btn:disabled:active {
+  background-color: #ccc;
+  animation: none;
+}
+
+.start-editing-btn {
+    background-color: #3498DB;
+    border-radius: 0.5em;
+    border: 1px solid #ccc;
+    padding: 0.5em;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.start-editing-btn:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    box-shadow: none;
+    animation: none;
+}
+
+.start-editing-btn:disabled:hover, .start-editing-btn:disabled:hover {
+    background-color: #ccc;
+    animation: none;
+}
+
+@keyframes up-and-down {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-0.25em);
+    }
+}
+
+.start-editing-btn:not(:disabled):hover {
+    background-color: #2c7bb0;
+    animation: up-and-down 0.5s ease-in-out infinite;
+
+}
+.start-editing-btn:active {
+    background-color: #3289c4;
 }
 
 .profile-image {

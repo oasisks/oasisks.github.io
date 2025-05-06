@@ -32,7 +32,7 @@
             }"
         >   
             <ul>
-                <li v-for="object of groupChatObjects" :key="object.value.object.channel" class="group-name">
+                <li v-for="object of groupChatObjects" :key="object.value.object.channel" class="group-name" :class="{ active: object.value.object.channel === chatID}">
                     <router-link :to="`/community/${object.value.object.channel}/${object.value.object.name}`">
                         {{ object.value.object.name }}
                     </router-link>
@@ -95,8 +95,8 @@
                                     ></strong
                                 >: {{ messageObj.value.content }}</p>
                                 <article class="edit-message">
-                                    <button @click="startEditing($graffitiSession.value, messageObj, i)" :disabled="$graffitiSession.value.actor != messageObj.actor">Edit</button>
-                                    <button @click="deleteMessage($graffitiSession.value, messageObj)" :disabled="$graffitiSession.value.actor != messageObj.actor">Delete</button>
+                                    <button @click="startEditing($graffitiSession.value, messageObj, i)" :disabled="$graffitiSession.value.actor != messageObj.actor" class="start-editing-btn">Edit</button>
+                                    <button @click="deleteMessage($graffitiSession.value, messageObj)" :disabled="$graffitiSession.value.actor != messageObj.actor" class="delete-btn">Delete</button>
                                 </article>
                             </article>
                             <article v-else class="others">
@@ -113,8 +113,8 @@
                                     ></strong
                                 >: {{ messageObj.value.content }}</p>
                                 <article class="edit-message">
-                                    <button @click="startEditing($graffitiSession.value, messageObj, i)" :disabled="$graffitiSession.value.actor != messageObj.actor">Edit</button>
-                                    <button @click="deleteMessage($graffitiSession.value, messageObj)" :disabled="$graffitiSession.value.actor != messageObj.actor">Delete</button>
+                                    <button @click="startEditing($graffitiSession.value, messageObj, i)" :disabled="$graffitiSession.value.actor != messageObj.actor" class="start-editing-btn">Edit</button>
+                                    <button @click="deleteMessage($graffitiSession.value, messageObj)" :disabled="$graffitiSession.value.actor != messageObj.actor" class="delete-btn">Delete</button>
                                 </article>
                             </article>
                             <!-- <p>URL: {{ getProfileImage(object.actor) }}</p> -->
