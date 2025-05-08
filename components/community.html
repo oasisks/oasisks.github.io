@@ -1,7 +1,7 @@
 <section id="community">
     <article id="group-list">
         <h1>Groups</h1>
-        <!-- <form @submit.prevent="createGroup($graffitiSession.value)">
+        <form @submit.prevent="createGroup($graffitiSession.value)">
             <fieldset :disabled="creatingGroup">
                 <input
                     type="text"
@@ -15,7 +15,7 @@
                     :value="sending? 'Creating...' : 'Create'"
                 />
             </fieldset>
-        </form> -->
+        </form>
         <graffiti-discover
             v-slot="{ objects: groupChatObjects }"
             :channels="['designftw']"
