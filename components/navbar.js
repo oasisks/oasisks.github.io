@@ -15,9 +15,6 @@ export default {
               <router-link to="/community">Community</router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/favorites">Favorites</router-link>
-            </li>
-            <li class="nav-item">
               <router-link :to="\`/profile/\${userName}\`">Profile</router-link>
             </li>
             <li class="nav-item">

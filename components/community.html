@@ -1,7 +1,7 @@
 <section id="community">
     <article id="group-list">
         <h1>Groups</h1>
-        <form @submit.prevent="createGroup($graffitiSession.value)">
+        <!-- <form @submit.prevent="createGroup($graffitiSession.value)">
             <fieldset :disabled="creatingGroup">
                 <input
                     type="text"
@@ -15,7 +15,7 @@
                     :value="sending? 'Creating...' : 'Create'"
                 />
             </fieldset>
-        </form>
+        </form> -->
         <graffiti-discover
             v-slot="{ objects: groupChatObjects }"
             :channels="['designftw']"
@@ -121,9 +121,31 @@
                         </template>
 
                         <template v-else>
-                            <input ref="newMessageInput" type="text" v-model="newMessage" v-focus>
-                            <button @click="editMessage($graffitiSession.value, messageObj)">Submit</button>
-                            <button @click="cancelEditing()">Cancel</button>
+                            <article v-if="getProfileImage(messageObj.actor)" class="others">
+                                <graffiti-get
+                                    :url="getProfileImage(messageObj.actor)"
+                                    :schema="graffitiFileSchema"
+                                    v-slot="{ object }"
+                                >
+                                    <graffiti-object-to-file
+                                        :object="object"
+                                        v-slot="{ file, fileDataUrl }"
+                                    >
+                                        <p v-if="file === undefined">Loading...</p>
+                                        <p v-else-if="file === null">File not found.</p>
+                                        <template v-else>
+                                            <section v-if="file.type.startsWith('image/')" class="others">
+                                                <article class="profile-image">
+                                                    <profile-image  :src="fileDataUrl" :width="'1.5em'" :height="'1.5em'" :round="true">
+                                                    </profile-image>
+                                                </article>
+                                            </section>
+                                        </template>
+                                    </graffiti-object-to-file>
+                                </graffiti-get>
+                            <input ref="newMessageInput" type="text" v-model="newMessage" class="edit-input-box" v-focus>
+                            <button @click="editMessage($graffitiSession.value, messageObj)" class="edit-submit">Submit</button>
+                            <button @click="cancelEditing()" class="edit-cancel">Cancel</button>
                         </template>
                     </li>
                 </ul>
@@ -139,11 +161,6 @@
                         v-focus
                         id="message-box"
                     />
-                    <!-- <input
-                        type="submit"
-                        :value="sending? 'Sending...' : 'Send'"
-                        id="message-send"
-                    /> -->
                 </fieldset>
             </form>
         </article>

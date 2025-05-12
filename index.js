@@ -15,12 +15,11 @@
     {path: "/", component: home},
     {path: '/community', component: community},
     {path: '/community/:chatID/:groupName', component: community, props: true},
-    {path: '/favorites', component: favorites},
     {path: '/profile/:userName', component: profile, props: true},
   ];
 
   const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(),
     routes,
   })
 

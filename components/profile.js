@@ -112,6 +112,7 @@ export default defineAsyncComponent(async () => {
           return;
         }
       }
+      this.loadingProfile = false;
     },
     components: { GraffitiObjectToFile, profileImage },
   };
