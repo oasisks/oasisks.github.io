@@ -81,7 +81,10 @@ export default {
 
         this.searchTimeout = setTimeout(() => {
           this.performSearch(query);
-        }, 300)
+        }, 300);
+
+        console.log(query);
+        console.log(this.searchResults);
       },
       async performSearch(query) {
         const lower = query.toLowerCase();
