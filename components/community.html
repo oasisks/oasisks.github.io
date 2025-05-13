@@ -125,13 +125,6 @@
                                     </strong>
                                     : {{ messageObj.value.content }}
                                 </p>
-                                <p><strong>
-                                    {{ messageObj.actor }}<span
-                                        v-if="messageObj.actor===$graffitiSession.value.actor"
-                                    >
-                                        (you)</span
-                                    ></strong
-                                >: {{ messageObj.value.content }}</p>
                                 <article class="edit-message">
                                     <button @click="startEditing($graffitiSession.value, messageObj, i)" :disabled="$graffitiSession.value.actor != messageObj.actor" class="start-editing-btn">Edit</button>
                                     <button @click="deleteMessage($graffitiSession.value, messageObj)" :disabled="$graffitiSession.value.actor != messageObj.actor" class="delete-btn">Delete</button>
