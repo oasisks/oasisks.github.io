@@ -468,7 +468,7 @@ body {
 
 }
 
-.start-editing-btn:disabled {
+.start-editing-btn:disabled, .start-editing-btn:disabled:hover {
     background-color: #ccc;
     color: #666;
     cursor: not-allowed;
@@ -616,4 +616,13 @@ body {
 .editing {
     display: flex;
     flex-direction: row;
+}
+
+.me {
+    color: #0056b3;
+    font-weight: 500;
+}
+
+.me strong, .me span {
+    color: inherit;
 }

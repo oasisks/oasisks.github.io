@@ -87,13 +87,19 @@
                                         </template>
                                     </graffiti-object-to-file>
                                 </graffiti-get>
-                                <p><strong>
-                                    {{ messageObj.actor }}<span
-                                        v-if="messageObj.actor===$graffitiSession.value.actor"
-                                    >
-                                        (you)</span
-                                    ></strong
-                                >: {{ messageObj.value.content }}</p>
+                                <p v-if="messageObj.actor===$graffitiSession.value.actor" class="me">
+                                    <strong>
+                                        {{ messageObj.actor }}
+                                        <span>(you)</span>
+                                    </strong>
+                                    : {{ messageObj.value.content }}
+                                </p>
+                                <p v-else>
+                                    <strong>
+                                        {{ messageObj.actor }}
+                                    </strong>
+                                    : {{ messageObj.value.content }}
+                                </p>
                                 <article class="edit-message">
                                     <button @click="startEditing($graffitiSession.value, messageObj, i)" :disabled="$graffitiSession.value.actor != messageObj.actor" class="start-editing-btn">Edit</button>
                                     <button @click="deleteMessage($graffitiSession.value, messageObj)" :disabled="$graffitiSession.value.actor != messageObj.actor" class="delete-btn">Delete</button>
@@ -105,6 +111,20 @@
                 
                                     </profile-image>
                                 </article>
+
+                                <p v-if="messageObj.actor===$graffitiSession.value.actor" class="me">
+                                    <strong>
+                                        {{ messageObj.actor }}
+                                        <span>(you)</span>
+                                    </strong>
+                                    : {{ messageObj.value.content }}
+                                </p>
+                                <p v-else>
+                                    <strong>
+                                        {{ messageObj.actor }}
+                                    </strong>
+                                    : {{ messageObj.value.content }}
+                                </p>
                                 <p><strong>
                                     {{ messageObj.actor }}<span
                                         v-if="messageObj.actor===$graffitiSession.value.actor"
