@@ -26,7 +26,7 @@
   createApp({
     data() {
       return {
-        channels: ["designftw"],
+        channels: ["designftw", "designftw-2025-studio2"],
       };
     },
     methods: {
@@ -34,29 +34,34 @@
         let currentActor = session.actor;
         console.log(currentActor);
         // this is the profile object we want
+        const generator = window.location.origin + window.location.pathname;
         let profileObjectInit = {
           name: "",
           published: Date.now(),
           profileImage: "",
           description: "",
+          generator: generator,
+          describes: this.$graffitiSession.value.actor
         }
         const collected = [];
         const schema = {
           properties: {
             value: {
-                required: ['name', 'published', 'profileImage', 'description'],
+                required: ['name', 'published', 'profileImage', 'description', 'generator', 'describes'],
                 properties: {
                     name: { type: 'string' },
                     published: { type: 'number' },
                     profileImage: { type: 'string' },
                     description: { type: 'string' },
+                    generator: { type: 'string' },
+                    describes: { type: 'string' },
                 }
             }
           }
         };
         // this first checks for all the profiles
         const stream = this.$graffiti.discover(
-          ['designftw'],
+          this.channels,
           schema, 
           session            
         );

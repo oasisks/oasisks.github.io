@@ -38,19 +38,21 @@ export default defineAsyncComponent(async () => {
       const schema = {
         properties: {
           value: {
-              required: ['name', 'published', 'profileImage', 'description'],
-              properties: {
-                  name: { type: 'string' },
-                  published: { type: 'number' },
-                  profileImage: { type: 'string' },
-                  description: { type: 'string' },
-              }
+                required: ['name', 'published', 'profileImage', 'description', 'generator', 'describes'],
+                properties: {
+                    name: { type: 'string' },
+                    published: { type: 'number' },
+                    profileImage: { type: 'string' },
+                    description: { type: 'string' },
+                    generator: { type: 'string' },
+                    describes: { type: 'string' },
+                }
           }
         }
       };
 
       const stream = this.$graffiti.discover(
-        ['designftw'],
+        ['designftw', "designftw-2025-studio2"],
         schema, 
         this.$graffitiSession.value
       );
@@ -124,10 +126,18 @@ export default defineAsyncComponent(async () => {
           return;
         }
         this.editing = true;
+
         this.editingIndex = i;
         this.newMessage = messageObj.value.content;
+
         await this.$nextTick();
-        this.$refs.newMessageInput[0].focus();
+        console.log("I am start editing");
+        console.log(this.editing);
+        console.log(this.editingIndex);
+        console.log(this.newMessage);
+
+        // console.log(this.$refs);
+        // this.$refs.newMessageInput[0].focus();
       },
       cancelEditing() {
         this.editing = false;

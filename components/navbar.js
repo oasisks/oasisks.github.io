@@ -83,8 +83,8 @@ export default {
           this.performSearch(query);
         }, 300);
 
-        console.log(query);
-        console.log(this.searchResults);
+        // console.log(query);
+        // console.log(this.searchResults);
       },
       async performSearch(query) {
         const lower = query.toLowerCase();
@@ -98,9 +98,8 @@ export default {
         const chatID = restaurant.value.object.channel;
         const groupName = encodeURIComponent(restaurant.value.object.name);
 
-        console.log(chatID);
-        console.log(groupName);
         this.$router.push(`/community/${chatID}/${groupName}`);
+        this.searchQuery = "";
         this.showResults = false;
       },
       hideResults() {

@@ -1,95 +1,97 @@
 <section id="profile" v-if="profileData">
-    <h2>Profile: {{ profileData.actor }}</h2>
-    <article id="profile-image">
-        <template v-if="!profileData">
-            <p>Loading Profile</p>
-        </template>
-        <template v-else>
-            <profile-image v-if="!profileData.value.profileImage" :src="'/components/defaultUser.jpg'" :width="'200px'" :height="'200px'" :round="true">
-                
-            </profile-image>
-            <article v-if="!profileData.value.profileImage">
-                <form @submit.prevent="uploadFile($graffitiSession.value)">
-                    <label for="file-input">
-                        Add a profile Image!
-                    </label>
-                    <article id="file-upload">
-                        <input
-                            id="file-input"
-                            type="file"
-                            accept="*"
-                            @change="setFileToUpload"
-                        />
-                        <input type="submit" value="Upload" />
-                    </article>
+    <section id="profile-card">
+        <h2>Profile: {{ profileData.actor }}</h2>
+        <article id="profile-image">
+            <template v-if="!profileData">
+                <p>Loading Profile</p>
+            </template>
+            <template v-else>
+                <article v-if="!profileData.value.profileImage" class="profileImage">
+                    <profile-image v-if="!profileData.value.profileImage" :src="'/components/defaultUser.jpg'" :width="'200px'" :height="'200px'" :round="true">
+                    
+                    </profile-image>
+                    <form @submit.prevent="uploadFile($graffitiSession.value)">
+                        <label for="file-input">
+                            Add a profile Image!
+                        </label>
+                        <article id="file-upload">
+                            <input
+                                id="file-input"
+                                type="file"
+                                accept="*"
+                                @change="setFileToUpload"
+                            />
+                            <input type="submit" value="Upload" class="image-submit" />
+                        </article>  
 
-                </form>
+                    </form>
 
-            </article>
-            <article v-else id="profileImage">
-                <graffiti-get
-                        :url="profileData.value.profileImage"
-                        :schema="graffitiFileSchema"
-                        v-slot="{ object }"
-                    >
-                        <graffiti-object-to-file
-                            :object="object"
-                            v-slot="{ file, fileDataUrl }"
+                </article>
+                <article v-else class="profileImage">
+                    <graffiti-get
+                            :url="profileData.value.profileImage"
+                            :schema="graffitiFileSchema"
+                            v-slot="{ object }"
                         >
-                            <p v-if="file === undefined">Loading...</p>
-                            <p v-else-if="file === null">File not found.</p>
-                            <template v-else>
-                                <p v-if="file.type.startsWith('image/')">
-                                    <profile-image  :src="fileDataUrl" :width="'200px'" :height="'200px'" :round="true">
-                                    </profile-image>
-                                </p>
-                            </template>
-                        </graffiti-object-to-file>
+                            <graffiti-object-to-file
+                                :object="object"
+                                v-slot="{ file, fileDataUrl }"
+                            >
+                                <p v-if="file === undefined">Loading...</p>
+                                <p v-else-if="file === null">File not found.</p>
+                                <template v-else>
+                                    <p v-if="file.type.startsWith('image/')">
+                                        <profile-image  :src="fileDataUrl" :width="'200px'" :height="'200px'" :round="true">
+                                        </profile-image>
+                                    </p>
+                                </template>
+                            </graffiti-object-to-file>
                     </graffiti-get>
 
 
-                <form @submit.prevent="uploadFile($graffitiSession.value)">
-                    <label for="file-input">
-                        Change your profile image!
-                    </label>
-                    <article id="file-upload">
-                        <input
-                            id="file-input"
-                            type="file"
-                            accept="*"
-                            @change="setFileToUpload"
-                        />
-                        <input type="submit" value="Upload" />
-                    </article>
+                    <form @submit.prevent="uploadFile($graffitiSession.value)">
+                        <label for="file-input">
+                            Change your profile image!
+                        </label>
+                        <article id="file-upload">
+                            <input
+                                id="file-input"
+                                type="file"
+                                accept="*"
+                                @change="setFileToUpload"
+                            />
+                            <input type="submit" value="Upload" class="edit-submit"/>
+                        </article>
 
-                </form>
+                    </form>
+                </article>
+
+            </template>
+
+
+        </article>
+
+        <article id="profile-description">
+            <article v-if="!editing" id="profile-description-headers">
+                <h3>Name: {{ profileData.value.name || "No name set." }}</h3>
+                <h3>Description: {{ profileData.value.description || "No description set." }} </h3>
             </article>
 
-        </template>
+            <article v-else id="profile-description-headers">
+                <h3>Name: <input type="text" v-model="name"></h3>
+                <h3>Description: <input type="text" v-model="description"></h3>
+            </article>
 
+            <article v-if="!editing" id="profile-edit-init">
+                <button @click="() => {editing = true; name = profileData.value.name; description = profileData.value.description;}">Edit</button>
+            </article>
 
-    </article>
-
-    <article id="profile-description">
-        <article v-if="!editing" id="profile-edit">
-            <button @click="() => {editing = true; name = profileData.value.name; description = profileData.value.description;}">Edit</button>
+            <article v-else id="profile-edit">
+                <button @click="editProfile($graffitiSession.value); console.log('Clicked');" class="edit-submit">Submit</button>
+                <button @click="() => {editing = false;}" class="edit-cancel">Cancel</button>
+            </article>
         </article>
-
-        <article v-else id="profile-edit">
-            <button @click="editProfile($graffitiSession.value); console.log('Clicked');">Submit</button>
-            <button @click="() => {editing = false;}">Cancel</button>
-        </article>
-
-        <article v-if="!editing" id="profile-description-headers">
-            <h3>Name: {{ profileData.value.name || "No name set." }}</h3>
-            <h3>Description: {{ profileData.value.description || "No description set." }} </h3>
-        </article>
-
-        <article v-else id="profile-description-headers">
-            <h3>Name: <input type="text" v-model="name"></h3>
-            <h3>Description: <input type="text" v-model="description"></h3>
-        </article>
-    </article>
+    </section>
 </section>
 
 <section v-else>

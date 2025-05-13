@@ -15,7 +15,7 @@ export default defineAsyncComponent(async () => {
     props: ["userName"],
     data() {
       return {
-        channels: ["designftw"],
+        channels: ["designftw", "designftw-2025-studio2"],
         fileToUpload: undefined,
         fileUrl: "",
         graffitiFileSchema,
@@ -86,12 +86,14 @@ export default defineAsyncComponent(async () => {
       const schema = {
         properties: {
           value: {
-              required: ['name', 'published', 'profileImage', 'description'],
-              properties: {
-                  name: { type: 'string' },
-                  published: { type: 'number' },
-                  profileImage: { type: 'string' },
-                  description: { type: 'string' },
+              required: ['name', 'published', 'profileImage', 'description', 'generator', 'describes'],
+                properties: {
+                    name: { type: 'string' },
+                    published: { type: 'number' },
+                    profileImage: { type: 'string' },
+                    description: { type: 'string' },
+                    generator: { type: 'string' },
+                    describes: { type: 'string' },
               }
           }
         }
